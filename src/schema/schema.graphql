@@ -1,0 +1,27 @@
+schema {
+    query: QueryType
+}
+
+type QueryType {
+  reservationsList(userId: ID!): [ReservationType!]!
+}
+
+type ReservationType {
+  hotelId: ID!
+  checkIn: String!
+  checkOut: String!
+  hotelDetails: HotelType
+  status: ReservationStatus!
+}
+
+type HotelType {
+  hotelName: String!
+  fullAddress: String
+  starRating: Int!
+}
+
+enum ReservationStatus {
+  UPCOMING
+  COMPLETED
+  CANCELLED
+}
