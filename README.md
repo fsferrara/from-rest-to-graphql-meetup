@@ -1,5 +1,5 @@
 # From REST to GraphQL - Meetup
-This is a GraphQL example for the [GraphQL meetup in Rome](https://www.meetup.com/Rome-Software-Discussion/events/245282496/).
+This is a GraphQL example for the [GraphQL meetup in Rome](https://www.meetup.com/Rome-Software-Discussion/events/245282496/).  
 We are going to use the [reference implementation of GraphQL for JavaScript](https://github.com/graphql/graphql-js).
 
 To start the tutorial:
@@ -11,17 +11,17 @@ To start the tutorial:
 This is the *data model* we would like to define:
 
 ````
-+---------------------------------+         +----------------------------+         +---------------------+
-| QueryType                       |         | ReservationType            |         | HotelType           |
-+---------------------------------+         +----------------------------+         +---------------------+
-|                                 |         |                            |         |                     |
-| reservation: [ReservationType]! +-------> | reservationNumber: ID!     |         | hotelName: String!  |
-|                                 |         | checkIn: String!           |         | fullAddress: String |
-+---------------------------------+         | checkOut: String!          |         | starRating: Int!    |
-                                            | hotel: HotelType!          +-------> |                     |
-                                            | status: ReservationStatus! |         +---------------------+
-                                            |                            |
-                                            +----------------------------+
++----------------------------------+         +----------------------------+         +---------------------+
+| QueryType                        |         | ReservationType            |         | HotelType           |
++----------------------------------+         +----------------------------+         +---------------------+
+|                                  |         |                            |         |                     |
+| reservations: [ReservationType]! +-------> | reservationNumber: ID!     |         | hotelName: String!  |
+|                                  |         | checkIn: String!           |         | fullAddress: String |
++----------------------------------+         | checkOut: String!          |         | starRating: Int!    |
+                                             | hotel: HotelType!          +-------> |                     |
+                                             | status: ReservationStatus! |         +---------------------+
+                                             |                            |
+                                             +----------------------------+
 ````
 
 ## GraphQL Schema Definition
@@ -37,14 +37,14 @@ Resolvers definition:
 ## Executable schema
 
 Loading the executable schema:
-* [src/schema/resolvers.js](src/schema/resolvers.js)
+* [src/schema/index.js](src/schema/index.js)
 
 ## Starting the server
 
 This is the recipe:
 * [src/index.js](src/index.js)
 
-...and then start the server with `node ./src/index.js`
+...and then start the server with the command: `node ./src/index.js`
 
 ## Our first query
 
@@ -90,8 +90,9 @@ This feature leads to really nice features like:
 GraphiQL is a *Schema Explorer* that use the GraphQL introspection feature.
 
 * `git checkout 1.0.2`
+* restart the server and access to [GraphiQL](http://localhost:3000/graphiql/)
 
 ## More complex example
 
-Introduce an additional resolver:
+Introduce an additional resolver in order to gather hotel data from the `HotelService`:
 * `git checkout 1.0.3`
