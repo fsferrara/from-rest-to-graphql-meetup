@@ -1,7 +1,7 @@
 // Dependencies
 
 console.log(`Loading apollo-server-express - an implementation of GraphQL server`);
-const {graphqlExpress} = require('apollo-server-express');
+const {graphqlExpress, graphiqlExpress} = require('apollo-server-express');
 
 console.log(`Loading the executable schema and the resolvers`);
 const schema = require('./schema');
@@ -18,6 +18,11 @@ var app = express();
 
 console.log(`Defining /graphql endpoint`);
 app.use('/graphql', bodyParser.json(), graphqlExpress({schema}));
+
+console.log(`Defining /graphiql endpoint - an API explorer`);
+app.use('/graphiql', graphiqlExpress({
+  endpointURL: '/graphql',
+}));
 
 console.log(`Starting GraphQL server`);
 const PORT = 3000
