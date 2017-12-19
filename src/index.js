@@ -1,3 +1,8 @@
+// Dependencies
+
+console.log(`Loading apollo-server-express - an implementation of GraphQL server`);
+const {graphqlExpress, graphiqlExpress} = require('apollo-server-express');
+
 console.log(`Loading the executable schema and the resolvers`);
 const schema = require('./schema');
 
@@ -6,10 +11,10 @@ const bodyParser = require('body-parser');
 
 console.log(`Loading express - a web application framework for node`);
 const express = require('express');
-var app = express();
 
-console.log(`Loading apollo-server-express - an implementation of GraphQL server`);
-const {graphqlExpress, graphiqlExpress} = require('apollo-server-express');
+
+// Putting everything together
+var app = express();
 
 console.log(`Defining /graphql endpoint`);
 app.use('/graphql', bodyParser.json(), graphqlExpress({schema}));

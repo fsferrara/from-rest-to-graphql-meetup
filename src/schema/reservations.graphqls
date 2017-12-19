@@ -3,14 +3,14 @@ schema {
 }
 
 type QueryType {
-  reservationsList(userId: ID!): [ReservationType!]!
+  reservations(userId: ID!): [ReservationType]!
 }
 
 type ReservationType {
-  hotelId: ID!
+  reservationNumber: ID!
   checkIn: String!
   checkOut: String!
-  hotelDetails: HotelType
+  hotel: HotelType
   status: ReservationStatus!
 }
 

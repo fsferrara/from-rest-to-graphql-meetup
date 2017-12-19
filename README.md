@@ -1,64 +1,70 @@
 # From REST to GraphQL - Meetup
-url: https://www.meetup.com/Rome-Software-Discussion/events/245282496/
+This is a GraphQL example for the [GraphQL meetup in Rome](https://www.meetup.com/Rome-Software-Discussion/events/245282496/).
+We are going to use the [reference implementation of GraphQL for JavaScript](https://github.com/graphql/graphql-js).
 
-## Nodejs Example - Getting Started With GraphQL
+To start the tutorial:
+* clone this repository
+* `git checkout 1.0.1`
 
-How to GraphQL with graphql.js
+## Data model
 
-### The data model and the GraphQL Schema Definition
-
-Data model:
-
-````
-+--------------------------------------+         +----------------------------+         +---------------------+
-| QueryType                            |         | ReservationType            |         | HotelType           |
-+--------------------------------------+         +----------------------------+         +---------------------+
-|                                      |         |                            |         |                     |
-| reservationList: [ReservationType!]! +-------> | hotelId: ID!               |         | hotelName: String!  |
-|                                      |         | checkIn: String!           |         | fullAddress: String |
-+--------------------------------------+         | checkOut: String!          |         | starRating: Int!    |
-                                                 | hotelDetails: HotelType!   +-------> |                     |
-                                                 | status: ReservationStatus! |         +---------------------+
-                                                 |                            |
-                                                 +----------------------------+
-````
-
-Read the GraphQL schema definition.
-
-### Starting the server
-
-Read the source code, and then start the server:
+This is the *data model* we would like to define:
 
 ````
-node ./src/index.js
++---------------------------------+         +----------------------------+         +---------------------+
+| QueryType                       |         | ReservationType            |         | HotelType           |
++---------------------------------+         +----------------------------+         +---------------------+
+|                                 |         |                            |         |                     |
+| reservation: [ReservationType]! +-------> | reservationNumber: ID!     |         | hotelName: String!  |
+|                                 |         | checkIn: String!           |         | fullAddress: String |
++---------------------------------+         | checkOut: String!          |         | starRating: Int!    |
+                                            | hotel: HotelType!          +-------> |                     |
+                                            | status: ReservationStatus! |         +---------------------+
+                                            |                            |
+                                            +----------------------------+
 ````
 
-### First query
+## GraphQL Schema Definition
 
-Run the first query:
+Using the GraphQL SDL (i.e. schema definition language), the data model can be described in this way:
+* [src/schema/reservations.graphqls](src/schema/reservations.graphqls)
 
-````
-curl -X POST \
-  http://localhost:3000/graphql \
-  -H 'content-type: application/json' \
-  -d '{"query": "query QueryType {reservationsList(userId:12345){hotelId,checkIn,checkOut,status}}"}' \
-  | jq "."
-````
+## Resolvers
 
-### Introspection query
+Resolvers definition:
+* [src/schema/resolvers.js](src/schema/resolvers.js)
 
-Introspection feature:
+## Executable schema
 
-````
-curl -X POST \
-  http://localhost:3000/graphql \
-  -H 'content-type: application/json' \
-  -d '{"query": "query QueryType {__schema{types{name,description}}}"}' \
-  | jq "."
-````
+Loading the executable schema:
+* [src/schema/resolvers.js](src/schema/resolvers.js)
 
-Implement and start GraphiQL.
+## Starting the server
 
-### Most complex example
+This is the recipe:
+* [src/index.js](src/index.js)
 
-Introduce an additional resolver.
+...and then start the server with `node ./src/index.js`
+
+## Our first query
+
+Try the [first query](http://localhost:3000/graphql?query={reservations(userId:4115){reservationNumber,checkIn,checkOut}}).
+
+## Introspection query
+
+Try the GraphQL *introspection feature* with the [introspection query](http://localhost:3000/graphql?query={__schema{types{name,description}}}).
+This feature leads to really nice features like:
+* Auto documentation: the client knows the exact GraphQL schema.
+* Code generation: the client can use a client generated from the schema.
+* Static validation: the GraphQL client can validate the query before sending it to the server
+
+## GraphiQL
+
+GraphiQL is a *Schema Explorer* that use the GraphQL introspection feature.
+
+* `git checkout 1.0.2`
+
+## More complex example
+
+Introduce an additional resolver:
+* `git checkout 1.0.3`
