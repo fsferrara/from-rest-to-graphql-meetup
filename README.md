@@ -48,11 +48,38 @@ This is the recipe:
 
 ## Our first query
 
-Try the [first query](http://localhost:3000/graphql?query={reservations(userId:4115){reservationNumber,checkIn,checkOut}}).
+First query:
+
+````
+{
+  reservations(userId: 4115) {
+    reservationNumber,
+    checkIn,
+    checkOut
+  }
+}
+````
+
+Try the [first query](http://localhost:3000/graphql?query={reservations(userId:4115){reservationNumber,checkIn,checkOut}}) in the browser.
 
 ## Introspection query
 
-Try the GraphQL *introspection feature* with the [introspection query](http://localhost:3000/graphql?query={__schema{types{name,description}}}).
+The GraphQL *introspection feature* is the ability of exposing information about what queries are supported.
+Example introspection query:
+
+````
+{
+  __schema {
+    types {
+      name,
+      description
+    }
+  }
+}
+````
+
+Try the GraphQL the [introspection query](http://localhost:3000/graphql?query={__schema{types{name,description}}}).
+
 This feature leads to really nice features like:
 * Auto documentation: the client knows the exact GraphQL schema.
 * Code generation: the client can use a client generated from the schema.
